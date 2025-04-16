@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id(); // plan_id
             $table->string('name')->unique(); // plan_name
             // Gunakan decimal untuk harga agar presisi
-            $table->decimal('price', 15, 2)->default(0); // plan_price (contoh: 15 digit total, 2 di belakang koma)
-            $table->integer('duration_days'); // plan_premium_duration (misal dalam hari)
+            $table->decimal('price', 15, 0)->default(0); // plan_price (contoh: 15 digit total, 2 di belakang koma)
+            $table->integer('duration_days')->default(0); // plan_premium_duration (misal dalam hari)
+            $table->string('thumbnail')->nullable();  
             $table->timestamps();
         });
     }

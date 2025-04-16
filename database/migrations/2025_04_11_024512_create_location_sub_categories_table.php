@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('location_sub_categories', function (Blueprint $table) {
-            $table->id(); // subcategory_id
-            $table->string('name')->unique(); // subcategory name
-            $table->text('svg_icon')->nullable(); // subcategory svg icon
-            $table->string('slug')->unique(); // subcategory slug
+            $table->id();
+            $table->foreignId('category_id')->nullable()->constrained('location_categories')->onDelete('cascade');
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->string('icon')->nullable();
             $table->timestamps();
+         
         });
     }
 

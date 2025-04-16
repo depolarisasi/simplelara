@@ -17,8 +17,8 @@ return new class extends Migration
                 // Foreign key ke tabel locations (galeri foto milik suatu lokasi)
                 $table->foreignId('location_id')->constrained('locations')->onDelete('cascade');
                 // Anda bisa menambahkan kolom lain seperti 'order' atau 'caption' jika perlu
-                // $table->integer('order')->default(0);
-                // $table->string('caption')->nullable();
+                $table->integer('order')->default(0);
+                $table->string('caption')->nullable();
                 $table->timestamps();
     
                 $table->index('location_id');

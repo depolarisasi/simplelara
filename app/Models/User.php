@@ -58,4 +58,12 @@ class User extends Authenticatable
     {
         return $this->getAllPermissions()->mapWithKeys(fn($permission) => [$permission['name'] => true]);
     }
+
+    /**
+     * Get the locations for the user.
+     */
+    public function locations()
+    {
+        return $this->hasMany(Location::class, 'owner_id');
+    }
 }

@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('location_categories', function (Blueprint $table) {
-            $table->id(); // category_id
-            $table->string('name')->unique(); // category name
-            $table->text('svg_icon')->nullable(); // category svg icon (text untuk data panjang)
-            $table->string('slug')->unique(); // category slug
+        Schema::create('reports', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('location_id')->constrained('locations')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('report_type');
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('location_categories');
+        Schema::dropIfExists('reports');
     }
 };
