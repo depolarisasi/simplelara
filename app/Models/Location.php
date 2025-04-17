@@ -12,6 +12,21 @@ class Location extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name', 'address', 'description', 'phone', 'whatsapp', 'email', 
+        'owner_id', 'thumbnail_url', 'operation_hours', 'last_bump', 
+        'likes_count', 'fav_count', 'is_viral', 'is_legend', 'is_featured',
+        'location_type_id', 'latitude', 'longitude', 'city_id', 'province_id',
+        'district', 'subdistrict', 'postal_code', 'website', 'instagram',
+        'tiktok', 'youtube', 'linkedin', 'facebook', 'hotel_star',
+        'verified_until', 'verified_status'
+    ];
+
+    /**
      * The attributes that aren't mass assignable.
      *
      * @var array<string>|bool
@@ -72,5 +87,13 @@ class Location extends Model
     public function province(): BelongsTo
     {
         return $this->belongsTo(Province::class);
+    }
+
+    /**
+     * Get the location type that the location belongs to.
+     */
+    public function locationType(): BelongsTo
+    {
+        return $this->belongsTo(LocationType::class);
     }
 }

@@ -97,6 +97,17 @@
                     <!--end:Menu link-->
                     <!--begin:Menu sub-->
                     <div class="menu-sub menu-sub-accordion">
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                                <a class="menu-link @if(Request::is('administrator/location*')) active @endif" href="{{url('administrator/location')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Location</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->

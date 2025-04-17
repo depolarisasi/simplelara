@@ -181,4 +181,38 @@ trait HandlesImageUploads
              return null;
          }
      }
+
+    /**
+     * Upload gambar ke storage
+     *
+     * @param UploadedFile $image
+     * @param string $path
+     * @param string|null $oldImage Path gambar lama untuk dihapus
+     * @return string
+     */
+    public function uploadImage(UploadedFile $image, string $path, ?string $oldImage = null): string
+    {
+        // Hapus gambar lama jika ada
+        if ($oldImage) {
+            Storage::disk('s3')->delete($oldImage);
+        }
+        
+        // Upload gambar baru
+        return $image->store($path, 's3');
+    }
+    
+    /**
+     * Hapus gambar dari storage
+     *
+     * @param string|null $imagePath
+     * @return bool
+     */
+    public function deleteImage(?string $imagePath): bool
+    {
+        if ($imagePath) {
+            return Storage::disk('s3')->delete($imagePath);
+        }
+        
+        return false;
+    }
 }

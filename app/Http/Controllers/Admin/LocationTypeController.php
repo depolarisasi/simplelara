@@ -47,7 +47,7 @@ class LocationTypeController extends Controller
         }
 
         alert()->success('Success', 'Location type added successfully');
-        return redirect('administrator/location/types');
+        return redirect('administrator/location/type');
     }
 
     /**
@@ -93,7 +93,7 @@ class LocationTypeController extends Controller
         }
 
         alert()->success('Success', 'Location type updated successfully');
-        return redirect('administrator/location/types');
+        return redirect('administrator/location/type');
     }
 
     /**

@@ -112,6 +112,18 @@ Route::prefix('administrator')->name('administrator.')->middleware(['auth'])->gr
                 Route::post('/store', [LocationTypeController::class, 'store'])->name('location-types.store'); 
                 Route::get('/delete/{id}', [LocationTypeController::class, 'destroy'])->name('location-types.destroy'); 
             });
+
+            // Location Management
+            Route::get('/', [App\Http\Controllers\Admin\LocationController::class, 'index'])->name('location.index');
+            Route::get('/create', [App\Http\Controllers\Admin\LocationController::class, 'create'])->name('location.create');
+            Route::post('/store', [App\Http\Controllers\Admin\LocationController::class, 'store'])->name('location.store');
+            Route::get('/edit/{id}', [App\Http\Controllers\Admin\LocationController::class, 'edit'])->name('location.edit');
+            Route::put('/update/{id}', [App\Http\Controllers\Admin\LocationController::class, 'update'])->name('location.update');
+            Route::get('/delete/{id}', [App\Http\Controllers\Admin\LocationController::class, 'destroy'])->name('location.destroy');
+            Route::get('/get-cities/{provinceId}', [App\Http\Controllers\Admin\LocationController::class, 'getCities'])->name('location.getCities');
+
+            // Tambahkan route map
+            Route::get('/map', [App\Http\Controllers\Admin\LocationController::class, 'map'])->name('location.map');
     });
 
     // Premium Plan Management
