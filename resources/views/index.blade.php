@@ -315,13 +315,13 @@
   <div class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <!-- Column 1: Nearby Locations -->
-      <div class="card bg-base-100 shadow-xl">
+      <div class="card card-border bg-base-100 shadow-md">
         <div class="card-body">
           <h2 class="card-title">Nearby Locations</h2>
           <ul class="space-y-4">
             <li class="flex items-center space-x-3">
               <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
+                <div class="w-12 h-12">
                   <img src="https://picsum.photos/100/100?random=1" alt="Location" />
                 </div>
               </div>

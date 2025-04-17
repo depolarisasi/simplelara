@@ -100,7 +100,7 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link @if(Request::is('administrator/location/category/')) active @endif" href="{{url('administrator/location/category')}}">
+                            <a class="menu-link @if(Request::is('administrator/location/category*')) active @endif" href="{{url('administrator/location/category')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -112,7 +112,7 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link @if(Request::is('administrator/location/sub-category/')) active @endif" href="{{url('administrator/location/sub-category')}}">
+                            <a class="menu-link @if(Request::is('administrator/location/sub-category*')) active @endif" href="{{url('administrator/location/sub-category')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -124,7 +124,7 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link @if(Request::is('administrator/location/type')) active @endif" href="{{url('administrator/location/type')}}">
+                            <a class="menu-link @if(Request::is('administrator/location/type*')) active @endif" href="{{url('administrator/location/type')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -151,7 +151,7 @@
                 </div>
                 <!--end:Menu item-->
                 <div class="menu-item  @if(Request::is('administrator/premium*')) here @endif menu-accordion">
-                    <a class="menu-link" href="index.html"> 
+                    <a class="menu-link" href="{{url('administrator/premium')}}"> 
                             <span class="menu-icon">
                                 <i class="ki-outline ki-category fs-2"></i>
                             </span>
@@ -160,7 +160,7 @@
                     </a>
                 </div>
                 <div class="menu-item  @if(Request::is('administrator/transaction*')) here @endif menu-accordion">
-                    <a class="menu-link" href="index.html"> 
+                    <a class="menu-link" href="{{url('administrator/transaction')}}"> 
                             <span class="menu-icon">
                                 <i class="ki-outline ki-category fs-2"></i>
                             </span>
@@ -169,7 +169,7 @@
                     </a>
                 </div>
                 <div class="menu-item  @if(Request::is('administrator/report*')) here @endif menu-accordion">
-                    <a class="menu-link" href="index.html"> 
+                    <a class="menu-link" href="{{url('administrator/report')}}"> 
                             <span class="menu-icon">
                                 <i class="ki-outline ki-category fs-2"></i>
                             </span>

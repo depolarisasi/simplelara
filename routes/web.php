@@ -5,6 +5,12 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\ProvinceController;
+use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\LocationCategoryController;
+use App\Http\Controllers\Admin\LocationSubCategoryController;
+use App\Http\Controllers\Admin\LocationTypeController;
+use App\Http\Controllers\Admin\PremiumPlanController;
 use App\Http\Controllers\DebugController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +55,8 @@ Route::prefix('administrator')->name('administrator.')->middleware(['auth'])->gr
         Route::post('/store', [RoleController::class, 'store'])->name('roles.store'); 
         Route::get('/delete/{id}', [RoleController::class, 'destroy'])->name('roles.destroy'); 
     });
+    
+    // Permission Management
     Route::prefix('permission')->group(function () { 
         Route::get('/', [PermissionController::class, 'index'])->name('permission.index'); 
         Route::get('/edit/{id}', [PermissionController::class, 'edit'])->name('permission.edit'); 
@@ -57,11 +65,65 @@ Route::prefix('administrator')->name('administrator.')->middleware(['auth'])->gr
         Route::get('/delete/{id}', [PermissionController::class, 'destroy'])->name('permission.destroy'); 
     });
 
-    // Debug Image Upload Routes (hanya untuk troubleshooting)
-    Route::prefix('debug')->name('debug.')->group(function () {
-        Route::get('/image-upload', [DebugController::class, 'index'])->name('index');
-        Route::post('/image-upload', [DebugController::class, 'upload'])->name('upload');
+    Route::prefix('setting')->group(function () { 
+    // Province Management
+        Route::prefix('provinces')->group(function () { 
+            Route::get('/', [ProvinceController::class, 'index'])->name('provinces.index'); 
+            Route::get('/edit/{id}', [ProvinceController::class, 'edit'])->name('provinces.edit'); 
+            Route::put('/update/{id}', [ProvinceController::class, 'update'])->name('provinces.update'); 
+            Route::post('/store', [ProvinceController::class, 'store'])->name('provinces.store'); 
+            Route::get('/delete/{id}', [ProvinceController::class, 'destroy'])->name('provinces.destroy'); 
+        });
+
+        // City Management
+        Route::prefix('cities')->group(function () { 
+            Route::get('/', [CityController::class, 'index'])->name('cities.index'); 
+            Route::get('/edit/{id}', [CityController::class, 'edit'])->name('cities.edit'); 
+            Route::put('/update/{id}', [CityController::class, 'update'])->name('cities.update'); 
+            Route::post('/store', [CityController::class, 'store'])->name('cities.store'); 
+            Route::get('/delete/{id}', [CityController::class, 'destroy'])->name('cities.destroy'); 
+        });
     });
+
+    Route::prefix('location')->group(function () { 
+       // Location Category Management
+            Route::prefix('category')->group(function () { 
+                Route::get('/', [LocationCategoryController::class, 'index'])->name('location-categories.index'); 
+                Route::get('/edit/{id}', [LocationCategoryController::class, 'edit'])->name('location-categories.edit'); 
+                Route::put('/update/{id}', [LocationCategoryController::class, 'update'])->name('location-categories.update'); 
+                Route::post('/store', [LocationCategoryController::class, 'store'])->name('location-categories.store'); 
+                Route::get('/delete/{id}', [LocationCategoryController::class, 'destroy'])->name('location-categories.destroy'); 
+            });
+
+            // Location Subcategory Management
+            Route::prefix('sub-category')->group(function () { 
+                Route::get('/', [LocationSubCategoryController::class, 'index'])->name('location-subcategories.index'); 
+                Route::get('/edit/{id}', [LocationSubCategoryController::class, 'edit'])->name('location-subcategories.edit'); 
+                Route::put('/update/{id}', [LocationSubCategoryController::class, 'update'])->name('location-subcategories.update'); 
+                Route::post('/store', [LocationSubCategoryController::class, 'store'])->name('location-subcategories.store'); 
+                Route::get('/delete/{id}', [LocationSubCategoryController::class, 'destroy'])->name('location-subcategories.destroy'); 
+            });
+
+            // Location Type Management
+            Route::prefix('type')->group(function () { 
+                Route::get('/', [LocationTypeController::class, 'index'])->name('location-types.index'); 
+                Route::get('/edit/{id}', [LocationTypeController::class, 'edit'])->name('location-types.edit'); 
+                Route::put('/update/{id}', [LocationTypeController::class, 'update'])->name('location-types.update'); 
+                Route::post('/store', [LocationTypeController::class, 'store'])->name('location-types.store'); 
+                Route::get('/delete/{id}', [LocationTypeController::class, 'destroy'])->name('location-types.destroy'); 
+            });
+    });
+
+    // Premium Plan Management
+    Route::prefix('premium')->group(function () { 
+            Route::get('/', [PremiumPlanController::class, 'index'])->name('premium-plans.index'); 
+            Route::get('/edit/{id}', [PremiumPlanController::class, 'edit'])->name('premium-plans.edit'); 
+            Route::put('/update/{id}', [PremiumPlanController::class, 'update'])->name('premium-plans.update'); 
+            Route::post('/store', [PremiumPlanController::class, 'store'])->name('premium-plans.store'); 
+            Route::get('/delete/{id}', [PremiumPlanController::class, 'destroy'])->name('premium-plans.destroy'); 
+        
+    });
+    
 });
 
 require __DIR__.'/auth.php';

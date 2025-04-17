@@ -11,6 +11,13 @@ class LocationSubCategory extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = ['name', 'slug', 'icon', 'category_id'];
+
+    /**
      * The attributes that aren't mass assignable.
      *
      * @var array<string>|bool
@@ -22,6 +29,6 @@ class LocationSubCategory extends Model
      */
     public function category(): BelongsTo
     {
-        return $this->belongsTo(LocationCategory::class);
+        return $this->belongsTo(LocationCategory::class, 'category_id');
     }
 }
