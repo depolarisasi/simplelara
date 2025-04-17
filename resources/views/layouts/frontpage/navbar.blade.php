@@ -1,37 +1,71 @@
-<nav class="navbar navbar-expand-lg bg-white bg-opacity-25 fixed-top d-none d-md-block" id="navbar">
-    <div class="container">
-        <a class="navbar-brand me-xl-5 me-3" href="#">
-            <img src="{{asset('assets/images/logo.png')}}" alt="logo">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"> 
-                    <a class="nav-link fs-16 fw-medium text-body hover px-0 px-md-2 mx-1 mx-xl-0 px-xl-4 active" href="#"><i data-feather="home" style="vertical-align: bottom;"></i> Home</a>
+<nav class="navbar bg-base-100 fixed top-0 z-50 shadow-sm  md:flex">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+        <!-- Left side: Logo and Menu -->
+        <div class="flex items-center">
+            <!-- Logo -->
+            <a href="/" class="btn btn-ghost normal-case text-xl mr-4 px-0">
+                <img src="{{asset('assets/media/logos/logo.png')}}" alt="logo" class="h-8">
+            </a>
+            
+            <!-- Navigation Links -->
+            <ul class="menu menu-horizontal px-1 hidden md:flex">
+                <li>
+                    <a href="/" class="{{ request()->is('/') ? 'active' : '' }}">
+                        <i class="ri-home-4-line"></i> Home
+                    </a>
                 </li>
-                <li class="nav-item"> 
-                    <a class="nav-link fs-16 fw-medium text-body hover px-0 px-md-2 mx-1 mx-xl-0 px-xl-4" href="#"><i data-feather="search" style="vertical-align: bottom;"></i> Search</a>
+                <li>
+                    <a href="/search" class="{{ request()->is('search') ? 'active' : '' }}">
+                        <i class="ri-search-line"></i> Search
+                    </a>
                 </li>
-                <li class="nav-item"> 
-                    <a class="nav-link fs-16 fw-medium text-body hover px-0 px-md-2 mx-1 mx-xl-0 px-xl-4" href="#"><i data-feather="compass" style="vertical-align: bottom;"></i> Explore</a>
+                <li>
+                    <a href="/explore" class="{{ request()->is('explore') ? 'active' : '' }}">
+                        <i class="ri-compass-3-line"></i> Explore
+                    </a>
                 </li>
-                <li class="nav-item"> 
-                    <a class="nav-link fs-16 fw-medium text-body hover px-0 px-md-2 mx-1 mx-xl-0 px-xl-4" href="#"><i data-feather="bookmark" style="vertical-align: bottom;"></i> Collection</a>
+                <li>
+                    <a href="/collections" class="{{ request()->is('collections') ? 'active' : '' }}">
+                        <i class="ri-bookmark-line"></i> Collection
+                    </a>
                 </li>
-                
             </ul>
-            <div class="othres">
-                <a href="register" class="btn px-0">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" class="img-fluid" style="width: 85%;"> 
-                </a>
-                <a href="login" class="btn btn-primary py-2 px-4 fw-medium fs-16 rounded-3">
-                    <i class="ri-login-box-line fs-18 position-relative top-2"></i>
-                    <span class="ms-1">Login</span>
-                </a>
-                
-            </div>
+        </div>
+        
+        <!-- Right side: Theme Toggle and Auth Controls -->
+        <div class="flex items-center gap-4">
+            <!-- Theme toggle -->
+            <button id="theme-toggle" class="btn btn-ghost btn-circle">
+                <i class="ri-sun-line dark:hidden text-xl"></i>
+                <i class="ri-moon-line hidden dark:inline-block text-xl"></i>
+            </button>
+            @auth
+                <div class="dropdown dropdown-end">
+                    <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+                        <div class="w-10 rounded-full">
+                            <img src="https://picsum.photos/200" alt="profile" />
+                        </div>
+                    </label>
+                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/settings">Settings</a></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            @else
+                <div class="flex gap-2">
+                    <a href="{{ route('login') }}" class="btn btn-primary btn-sm">
+                        <i class="ri-login-box-line"></i>
+                        <span class="ml-1">Login</span>
+                    </a>
+                    <a href="{{ route('register') }}" class="btn btn-outline btn-sm">Register</a>
+                </div>
+            @endauth
         </div>
     </div>
 </nav>

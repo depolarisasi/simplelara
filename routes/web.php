@@ -11,7 +11,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('index');
 });
- 
+
+Route::get('/search', function () {
+    return view('search');
+});
+
+Route::get('/explore', function () {
+    return view('explore');
+});
+
+Route::get('/collections', function () {
+    return view('collections');
+});
 
 // Admin Routes
 Route::prefix('administrator')->name('administrator.')->middleware(['auth'])->group(function () {

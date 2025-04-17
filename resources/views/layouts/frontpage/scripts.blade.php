@@ -1,20 +1,60 @@
-<script src="{{ url('/assets/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ url('/assets/js/sidebar-menu.js') }}"></script>
-<script src="{{ url('/assets/js/dragdrop.js') }}"></script>
-<script src="{{ url('/assets/js/rangeslider.min.js') }}"></script>
-<script src="{{ url('/assets/js/quill.min.js') }}"></script>
-<script src="{{ url('/assets/js/data-table.js') }}"></script>
-<script src="{{ url('/assets/js/prism.js') }}"></script>
-<script src="{{ url('/assets/js/clipboard.min.js') }}"></script>
-<script src="{{ url('/assets/js/feather.min.js') }}"></script>
-<script src="{{ url('/assets/js/simplebar.min.js') }}"></script>
-<script src="{{ url('/assets/js/apexcharts.min.js') }}"></script>
-<script src="{{ url('/assets/js/echarts.js') }}"></script> 
-<script src="{{ url('/assets/js/fullcalendar.main.js') }}"></script>
-<script src="{{ url('/assets/js/jsvectormap.min.js') }}"></script>
-<script src="{{ url('/assets/js/world-merc.js') }}"></script>
-<script src="{{ url('/assets/js/moment.min.js') }}"></script>
-<script src="{{ url('/assets/js/lightpick.js') }}"></script>
-<script src="{{ url('/assets/js/custom/apexcharts.js') }}"></script>
-<script src="{{ url('/assets/js/custom/echarts.js') }}"></script>
-<script src="{{ url('/assets/js/custom/custom.js') }}"></script>
+ 
+<!-- Initialize Feather Icons -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+     
+    
+    // Back to top button functionality
+    const backToTopButton = document.getElementById('backtotop');
+    if (backToTopButton) {
+      // Initially hide the button
+      backToTopButton.style.display = 'none';
+      
+      // Show/hide the button based on scroll position
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) {
+          backToTopButton.style.display = 'block';
+        } else {
+          backToTopButton.style.display = 'none';
+        }
+      });
+      
+      // Scroll to top when clicked
+      backToTopButton.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+  });
+
+  
+
+// Initialize icons if available
+document.addEventListener('DOMContentLoaded', function() { 
+    
+    // Initialize any other components or functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            // Toggle between light and dark theme
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            
+            // Save preference to localStorage
+            localStorage.setItem('theme', newTheme);
+        });
+    }
+    
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    } else {
+        // Default to light theme
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+});
+</script>
