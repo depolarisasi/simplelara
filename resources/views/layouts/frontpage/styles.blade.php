@@ -3,10 +3,7 @@
 
 <!-- Favicon -->
 <link rel="icon" type="image/png" href="{{ url('/assets/images/favicon.png') }}">
-
-<!-- Icon Libraries -->
-<link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
-
+ 
 <!-- Add Swiper CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 

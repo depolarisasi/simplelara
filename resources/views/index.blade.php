@@ -4,7 +4,12 @@
 
 <link rel="stylesheet" href="https://unpkg.com/@glidejs/glide@3.7.1/dist/css/glide.core.min.css" /> 
 <link rel="stylesheet" href="https://unpkg.com/@glidejs/glide@3.7.1/dist/css/glide.theme.min.css" />
-<style>
+<style> 
+    /* Styling for Loading Skeleton */
+    .skeleton-card { @apply bg-white border border-gray-200 rounded-lg p-3 flex space-x-3; }
+    .skeleton-img { @apply w-20 h-20 rounded bg-gray-200 animate-pulse; }
+    .skeleton-line { @apply h-4 bg-gray-200 rounded animate-pulse mb-2; }
+
     .price-tag {
       position: relative;
       display: inline-block;
@@ -52,12 +57,12 @@
       object-fit: cover;
       object-position: center;
     }
-    
+    /*     
     @media (min-width: 768px) {
       .hero-slider {
         height: 480px;
       }
-    }
+    } */
     
     /* Perbaikan untuk kontrol slider */
     .glide__arrows {
@@ -177,18 +182,18 @@
 @section('content') 
 <!-- Hero Fullwidth Slider -->
 <div class="h-18 md:hidden"></div>
-<div class="fullwidth-slider px-5">
+<div class="container mx-auto px-5 md:px-10">
   <div class="glide hero-slider">
     <div class="glide__track" data-glide-el="track">
       <ul class="glide__slides">
         <li class="glide__slide"> 
-          <img src="https://picsum.photos/1600/800?random=1" alt="Hero Image 1">
+          <img src="https://picsum.photos/1600/800?random=1" class="w-full h-auto">
         </li>
         <li class="glide__slide"> 
-          <img src="https://picsum.photos/1600/800?random=2" alt="Hero Image 2">
+          <img src="https://picsum.photos/1600/800?random=2" class="w-full h-auto">
         </li>
         <li class="glide__slide"> 
-          <img src="https://picsum.photos/1600/800?random=3" alt="Hero Image 3">
+          <img src="https://picsum.photos/1600/800?random=3" class="w-full h-auto">
         </li>
       </ul>
     </div>
@@ -200,28 +205,56 @@
     </div>
     
     <div class="glide__arrows" data-glide-el="controls">
-      <button class="glide__arrow glide__arrow--left" data-glide-dir="<"><i class="ri-arrow-left-line"></i></button>
-      <button class="glide__arrow glide__arrow--right" data-glide-dir=">"><i class="ri-arrow-right-line"></i></button>
+      <button class="glide__arrow glide__arrow--left" data-glide-dir="<"><i class="ri-arrow-left-s-line"></i></button>
+      <button class="glide__arrow glide__arrow--right" data-glide-dir=">"><i class="ri-arrow-right-s-line"></i></button>
     </div>
   </div>
 </div>
 
 <!-- Small Slider -->
-<div class="flex px-5">
+<div class="container mx-auto flex px-5 md:px-10">
   <div class="glide small-slider">
     <div class="glide__track" data-glide-el="track">
       <ul class="glide__slides">
-        <li class="glide__slide"> 
-          <img src="https://picsum.photos/400/150?random=4" alt="Small Image 1">
+        <li class="glide__slide">  
+          <a href="#"> 
+            <div class="flex justify-between items-center">
+              <div class="text-md font-bold mb-2 mr-2">Semua yang dicari ada disini</div> 
+              <button href="#" class="btn btn-xs btn-neutral btn-outline btn-circle"><i class="ri-arrow-right-s-line"></i></button>
+            </div>
+            <img src="https://picsum.photos/400/150?random=4" class="w-full h-auto rounded-md" alt="Small Image 1">
+            <div class="text-md mb-2 mr-2">Belanja berkali-kali tetap hemat</div>
+          </a> 
         </li>
         <li class="glide__slide"> 
-          <img src="https://picsum.photos/400/150?random=5" alt="Small Image 2">
+          <a href="#"> 
+            <div class="flex justify-between items-center">
+              <div class="text-md font-bold mb-2 mr-2">Semua yang dicari ada disini</div> 
+              <button href="#" class="btn btn-xs btn-neutral btn-outline btn-circle"><i class="ri-arrow-right-s-line"></i></button>
+            </div>
+            <img src="https://picsum.photos/400/150?random=5" class="w-full h-auto rounded-md" alt="Small Image 1">
+            <div class="text-md mb-2 mr-2">Belanja berkali-kali tetap hemat</div>
+          </a> 
         </li>
         <li class="glide__slide"> 
-          <img src="https://picsum.photos/400/150?random=6" alt="Small Image 3">
+          <a href="#"> 
+            <div class="flex justify-between items-center">
+              <div class="text-md font-bold mb-2 mr-2">Semua yang dicari ada disini</div> 
+              <button href="#" class="btn btn-xs btn-neutral btn-outline btn-circle"><i class="ri-arrow-right-s-line"></i></button>
+            </div>
+            <img src="https://picsum.photos/400/150?random=5" class="w-full h-auto rounded-md" alt="Small Image 1">
+            <div class="text-md mb-2 mr-2">Belanja berkali-kali tetap hemat</div>
+          </a> 
         </li>
         <li class="glide__slide"> 
-          <img src="https://picsum.photos/400/150?random=7" alt="Small Image 4">
+          <a href="#"> 
+            <div class="flex justify-between items-center">
+              <div class="text-md font-bold mb-2 mr-2">Semua yang dicari ada disini</div> 
+              <button href="#" class="btn btn-xs btn-neutral btn-outline btn-circle"><i class="ri-arrow-right-s-line"></i></button>
+            </div>
+            <img src="https://picsum.photos/400/150?random=5" class="w-full h-auto rounded-md" alt="Small Image 1">
+            <div class="text-md mb-2 mr-2">Belanja berkali-kali tetap hemat</div>
+          </a> 
         </li>
       </ul>
     </div>
@@ -230,259 +263,248 @@
  
 
   <!-- Map Section -->
-  <div class="container mx-auto px-5 py-8">
-    <h2 class="text-2xl font-bold mb-4">Jelajahi Sekitar</h2>
-    <div id="index-map" class="w-full h-[400px] rounded-lg shadow-lg max-w-full z-10"></div>
+  <div class="container mx-auto px-5 md:px-10 py-8">
+    <div class="flex justify-between items-center mb-2">
+    <h2 class="text-2xl font-bold">Jelajahi Sekitar</h2>
+    <a href="#" class="btn btn-sm btn-outline">
+      Explore <i class="ri-arrow-right-long-line"></i>
+    </a>
+  </div>
+    <div id="index-map" class="w-full h-[250px] md:h-[350px] rounded-lg shadow-lg max-w-full z-10"></div>
   </div>
 
   <!-- Location Categories -->
-  <div class="container mx-auto px-4 py-8">
+  <div class="container mx-auto px-5 md:px-10 pt-8 pb-0">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-2xl font-bold">Kategori Makanan</h2>
       <a href="#" class="btn btn-sm btn-outline">
-        Lainnya <i class="ri-arrow-right-line ml-1"></i>
+        Lainnya <i class="ri-arrow-right-long-line"></i>
       </a>
     </div>
     
     <!-- Food Category Swiper -->
-    <div class="swiper mx-auto px-4 py-8 food-category-swiper">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <a href="#" class="food-category-item">
-            <img src="https://picsum.photos/64/64?random=20" alt="Satay" class="food-category-img">
-            <span class="food-category-name">Satay</span>
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a href="#" class="food-category-item">
-            <img src="https://picsum.photos/64/64?random=21" alt="Rice" class="food-category-img">
-            <span class="food-category-name">Rice</span>
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a href="#" class="food-category-item">
-            <img src="https://picsum.photos/64/64?random=22" alt="Chicken" class="food-category-img">
-            <span class="food-category-name">Chicken</span>
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a href="#" class="food-category-item">
-            <img src="https://picsum.photos/64/64?random=23" alt="Halal Certified" class="food-category-img">
-            <span class="food-category-name">Halal</span>
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a href="#" class="food-category-item">
-            <img src="https://picsum.photos/64/64?random=24" alt="Japanese" class="food-category-img">
-            <span class="food-category-name">Japanese</span>
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a href="#" class="food-category-item">
-            <img src="https://picsum.photos/64/64?random=25" alt="Italian" class="food-category-img">
-            <span class="food-category-name">Italian</span>
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a href="#" class="food-category-item">
-            <img src="https://picsum.photos/64/64?random=26" alt="Seafood" class="food-category-img">
-            <span class="food-category-name">Seafood</span>
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a href="#" class="food-category-item">
-            <img src="https://picsum.photos/64/64?random=27" alt="Fast Food" class="food-category-img">
-            <span class="food-category-name">Fast Food</span>
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a href="#" class="food-category-item">
-            <img src="https://picsum.photos/64/64?random=28" alt="Vegetarian" class="food-category-img">
-            <span class="food-category-name">Vegetarian</span>
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a href="#" class="food-category-item">
-            <img src="https://picsum.photos/64/64?random=29" alt="Dessert" class="food-category-img">
-            <span class="food-category-name">Dessert</span>
-          </a>
+    <div class="container flex">
+      <div class="swiper food-category-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <a href="#" class="food-category-item">
+              <img src="https://picsum.photos/64/64?random=20" alt="Satay" class="food-category-img">
+              <span class="food-category-name">Satay</span>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="food-category-item">
+              <img src="https://picsum.photos/64/64?random=21" alt="Rice" class="food-category-img">
+              <span class="food-category-name">Rice</span>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="food-category-item">
+              <img src="https://picsum.photos/64/64?random=22" alt="Chicken" class="food-category-img">
+              <span class="food-category-name">Chicken</span>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="food-category-item">
+              <img src="https://picsum.photos/64/64?random=23" alt="Halal Certified" class="food-category-img">
+              <span class="food-category-name">Halal</span>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="food-category-item">
+              <img src="https://picsum.photos/64/64?random=24" alt="Japanese" class="food-category-img">
+              <span class="food-category-name">Japanese</span>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="food-category-item">
+              <img src="https://picsum.photos/64/64?random=25" alt="Italian" class="food-category-img">
+              <span class="food-category-name">Italian</span>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="food-category-item">
+              <img src="https://picsum.photos/64/64?random=26" alt="Seafood" class="food-category-img">
+              <span class="food-category-name">Seafood</span>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="food-category-item">
+              <img src="https://picsum.photos/64/64?random=27" alt="Fast Food" class="food-category-img">
+              <span class="food-category-name">Fast Food</span>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="food-category-item">
+              <img src="https://picsum.photos/64/64?random=28" alt="Vegetarian" class="food-category-img">
+              <span class="food-category-name">Vegetarian</span>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="food-category-item">
+              <img src="https://picsum.photos/64/64?random=29" alt="Dessert" class="food-category-img">
+              <span class="food-category-name">Dessert</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
+   
   </div>
 
-  <!-- Location Grid -->
-  <div class="container mx-auto px-4 py-8">
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      <!-- Column 1: Nearby Locations -->
-      <div class="card card-border bg-base-100 shadow-md">
-        <div class="card-body">
-          <h2 class="card-title">Nearby Locations</h2>
-          <ul class="space-y-4">
-            <li class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="w-12 h-12">
-                  <img src="https://picsum.photos/100/100?random=1" alt="Location" />
-                </div>
+  <div class="container mx-auto px-5 md:px-10"> 
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <!-- Column 1: Nearby Locations -->  
+        <div>
+            <h2 class="card-title">Nearby Locations</h2>
+            <ul class="space-y-4">
+              <li class="flex-grow items-center space-x-3">
+                <div class="bg-white border border-gray-200 rounded-lg p-3 flex space-x-3 hover:shadow-md transition-shadow duration-200">
+                  <img src="https://placehold.co/80x80/e2e8f0/94a3b8?text=Gambar+1" alt="Warung Makan Sedap" class="w-20 h-20 rounded object-cover flex-shrink-0" loading="lazy">
+                  <div class="flex-grow">
+                      <div class="flex justify-between items-start mb-1"> <h3 class="text-md font-semibold text-gray-800">Warung Makan Sedap <span class="text-primary flex-shrink-0" title="Verified Gold"><i class="ri-checkbox-circle-line"></i></span></h3></div>
+                      <p class="text-xs text-gray-500 mb-1">Makanan / Rumahan</p> 
+                      <p class="text-xs text-gray-600"><i class="ri-map-pin-2-line mr-1 text-red-500 w-3 text-center"></i> Jl. Merdeka No. 10 (± 500m)</p>
+                      <div class="flex justify-between items-center">
+                          <p class="text-xs text-green-600 font-medium">Buka <span class="text-gray-500 font-normal">• Tutup 22:00</span></p>
+                          <div class="flex space-x-2 text-gray-500"> 
+                            <button class="hover:text-blue-500 transition-colors duration-150 p-1" aria-label="Lihat di Peta" onclick="alert('Tombol Lihat Peta diklik untuk: Warung Makan Sedap')"><i class="ri-map-2-line"></i></button> 
+                            <button class="hover:text-blue-500 transition-colors duration-150 p-1" aria-label="Telepon" onclick="alert('Tombol Telepon diklik untuk: Warung Makan Sedap')"><i class="ri-phone-line"></i></button> 
+                            <button class="hover:text-blue-500 transition-colors duration-150 p-1" aria-label="WA" onclick="alert('Tombol WA diklik untuk: Warung Makan Sedap')"><i class="ri-whatsapp-line"></i></button> </div>
+                      </div>
+                  </div>
               </div>
-              <div>
-                <h3 class="font-medium">Coffee Shop</h3>
-                <p class="text-sm text-gray-500">0.5 km away</p>
-              </div>
-            </li>
-            <li class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
-                  <img src="https://picsum.photos/100/100?random=2" alt="Location" />
-                </div>
-              </div>
-              <div>
-                <h3 class="font-medium">Restaurant</h3>
-                <p class="text-sm text-gray-500">0.8 km away</p>
-              </div>
-            </li>
-            <li class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
-                  <img src="https://picsum.photos/100/100?random=3" alt="Location" />
-                </div>
-              </div>
-              <div>
-                <h3 class="font-medium">Bakery</h3>
-                <p class="text-sm text-gray-500">1.2 km away</p>
-              </div>
-            </li>
-          </ul>
+              </li> 
+            </ul> 
         </div>
-      </div>
-      
-      <!-- Column 2: Legend -->
-      <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">Legend</h2>
-          <ul class="space-y-4">
-            <li class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
-                  <img src="https://picsum.photos/100/100?random=4" alt="Location" />
+        <!-- Column 2: Legend -->
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title">Legend</h2>
+            <ul class="space-y-4">
+              <li class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="w-12 h-12 rounded-full">
+                    <img src="https://picsum.photos/100/100?random=4" alt="Location" />
+                  </div>
                 </div>
-              </div>
-              <div>
-                <h3 class="font-medium">Shopping Mall</h3>
-                <p class="text-sm text-gray-500">2.5 km away</p>
-              </div>
-            </li>
-            <li class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
-                  <img src="https://picsum.photos/100/100?random=5" alt="Location" />
+                <div>
+                  <h3 class="font-medium">Shopping Mall</h3>
+                  <p class="text-sm text-gray-500">2.5 km away</p>
                 </div>
-              </div>
-              <div>
-                <h3 class="font-medium">Hotel</h3>
-                <p class="text-sm text-gray-500">3.0 km away</p>
-              </div>
-            </li>
-            <li class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
-                  <img src="https://picsum.photos/100/100?random=6" alt="Location" />
+              </li>
+              <li class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="w-12 h-12 rounded-full">
+                    <img src="https://picsum.photos/100/100?random=5" alt="Location" />
+                  </div>
                 </div>
-              </div>
-              <div>
-                <h3 class="font-medium">Gym</h3>
-                <p class="text-sm text-gray-500">1.8 km away</p>
-              </div>
-            </li>
-          </ul>
+                <div>
+                  <h3 class="font-medium">Hotel</h3>
+                  <p class="text-sm text-gray-500">3.0 km away</p>
+                </div>
+              </li>
+              <li class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="w-12 h-12 rounded-full">
+                    <img src="https://picsum.photos/100/100?random=6" alt="Location" />
+                  </div>
+                </div>
+                <div>
+                  <h3 class="font-medium">Gym</h3>
+                  <p class="text-sm text-gray-500">1.8 km away</p>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-      
-      <!-- Column 3: New Viral Locations -->
-      <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">New Viral Locations</h2>
-          <ul class="space-y-4">
-            <li class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
-                  <img src="https://picsum.photos/100/100?random=7" alt="Location" />
+        
+        <!-- Column 3: New Viral Locations -->
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title">New Viral Locations</h2>
+            <ul class="space-y-4">
+              <li class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="w-12 h-12 rounded-full">
+                    <img src="https://picsum.photos/100/100?random=7" alt="Location" />
+                  </div>
                 </div>
-              </div>
-              <div>
-                <h3 class="font-medium">Trendy Cafe</h3>
-                <p class="text-sm text-gray-500">4.2 km away</p>
-              </div>
-            </li>
-            <li class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
-                  <img src="https://picsum.photos/100/100?random=8" alt="Location" />
+                <div>
+                  <h3 class="font-medium">Trendy Cafe</h3>
+                  <p class="text-sm text-gray-500">4.2 km away</p>
                 </div>
-              </div>
-              <div>
-                <h3 class="font-medium">Art Gallery</h3>
-                <p class="text-sm text-gray-500">5.0 km away</p>
-              </div>
-            </li>
-            <li class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
-                  <img src="https://picsum.photos/100/100?random=9" alt="Location" />
+              </li>
+              <li class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="w-12 h-12 rounded-full">
+                    <img src="https://picsum.photos/100/100?random=8" alt="Location" />
+                  </div>
                 </div>
-              </div>
-              <div>
-                <h3 class="font-medium">Pop-up Market</h3>
-                <p class="text-sm text-gray-500">2.7 km away</p>
-              </div>
-            </li>
-          </ul>
+                <div>
+                  <h3 class="font-medium">Art Gallery</h3>
+                  <p class="text-sm text-gray-500">5.0 km away</p>
+                </div>
+              </li>
+              <li class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="w-12 h-12 rounded-full">
+                    <img src="https://picsum.photos/100/100?random=9" alt="Location" />
+                  </div>
+                </div>
+                <div>
+                  <h3 class="font-medium">Pop-up Market</h3>
+                  <p class="text-sm text-gray-500">2.7 km away</p>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-      
-      <!-- Column 4: Featured Locations -->
-      <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">Featured Locations</h2>
-          <ul class="space-y-4">
-            <li class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
-                  <img src="https://picsum.photos/100/100?random=10" alt="Location" />
+        
+        <!-- Column 4: Featured Locations -->
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title">Featured Locations</h2>
+            <ul class="space-y-4">
+              <li class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="w-12 h-12 rounded-full">
+                    <img src="https://picsum.photos/100/100?random=10" alt="Location" />
+                  </div>
                 </div>
-              </div>
-              <div>
-                <h3 class="font-medium">Luxury Hotel</h3>
-                <p class="text-sm text-gray-500">6.5 km away</p>
-              </div>
-            </li>
-            <li class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
-                  <img src="https://picsum.photos/100/100?random=11" alt="Location" />
+                <div>
+                  <h3 class="font-medium">Luxury Hotel</h3>
+                  <p class="text-sm text-gray-500">6.5 km away</p>
                 </div>
-              </div>
-              <div>
-                <h3 class="font-medium">Fine Dining</h3>
-                <p class="text-sm text-gray-500">3.8 km away</p>
-              </div>
-            </li>
-            <li class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
-                  <img src="https://picsum.photos/100/100?random=12" alt="Location" />
+              </li>
+              <li class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="w-12 h-12 rounded-full">
+                    <img src="https://picsum.photos/100/100?random=11" alt="Location" />
+                  </div>
                 </div>
-              </div>
-              <div>
-                <h3 class="font-medium">Wellness Spa</h3>
-                <p class="text-sm text-gray-500">4.5 km away</p>
-              </div>
-            </li>
-          </ul>
+                <div>
+                  <h3 class="font-medium">Fine Dining</h3>
+                  <p class="text-sm text-gray-500">3.8 km away</p>
+                </div>
+              </li>
+              <li class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="w-12 h-12 rounded-full">
+                    <img src="https://picsum.photos/100/100?random=12" alt="Location" />
+                  </div>
+                </div>
+                <div>
+                  <h3 class="font-medium">Wellness Spa</h3>
+                  <p class="text-sm text-gray-500">4.5 km away</p>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </div>
+      </div>  
   </div>
+ 
 
   <!-- CTA Section -->
   <div class="bg-primary py-12">
@@ -542,13 +564,25 @@
       if (document.querySelector('.small-slider')) {
         const smallSlider = new Glide('.small-slider', {
             type: 'carousel', 
-            perView: 4,
+            perView: 4, 
+                peek: {
+                before: 0,
+                after: 50 //
+              },
             breakpoints: {
               1024: {
-                perView: 4
+                perView: 2, 
+                peek: {
+                before: 0,
+                after: 75 //
+              }
               },
               600: {
-                perView: 2
+                perView: 1,
+                peek: {
+                before: 0,
+                after: 50 //
+              }
               }
             },
             gap: 10,
