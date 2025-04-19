@@ -64,6 +64,20 @@ trait HandlesImageUploads
     }
 
     /**
+     * Menghasilkan aturan validasi untuk multiple upload images
+     *
+     * @param string $fieldName Nama field untuk multiple images
+     * @return array
+     */
+    protected function multipleImagesValidationRules(string $fieldName = 'photos'): array
+    {
+        return [
+            $fieldName => 'nullable|array',
+            $fieldName . '.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5000' // Max 5MB per file
+        ];
+    }
+
+    /**
      * Proses upload, optimasi, dan simpan gambar ke S3 menggunakan Intervention Image v3.
      *
      * @param UploadedFile $image Instance file yang diupload.
@@ -199,6 +213,26 @@ trait HandlesImageUploads
         
         // Upload gambar baru
         return $image->store($path, 's3');
+    }
+    
+    /**
+     * Upload multiple images dan return array dari path
+     *
+     * @param array $images Array dari UploadedFile
+     * @param string $path Direktori tujuan
+     * @return array Array dari path image yang telah diupload
+     */
+    public function uploadMultipleImages(array $images, string $path): array
+    {
+        $uploadedPaths = [];
+        
+        foreach ($images as $image) {
+            if ($image instanceof UploadedFile) {
+                $uploadedPaths[] = $this->uploadImage($image, $path);
+            }
+        }
+        
+        return $uploadedPaths;
     }
     
     /**

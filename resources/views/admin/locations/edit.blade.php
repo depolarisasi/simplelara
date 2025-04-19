@@ -3,6 +3,7 @@
 
 @section('styles')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 <style>
     #map {
         height: 400px;
@@ -28,6 +29,82 @@
     }
     .tab-content {
         padding-top: 20px;
+    }
+    /* Dropzone custom styling */
+    .dropzone {
+        border: 2px dashed #0d6efd;
+        border-radius: 5px;
+        background: #f8fafc;
+    }
+    .dropzone .dz-preview .dz-image {
+        border-radius: 8px;
+    }
+    .dz-caption {
+        margin-top: 10px;
+        width: 120px;
+    }
+    /* Gallery styling */
+    .gallery-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    .gallery-item {
+        position: relative;
+        width: 150px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .gallery-item img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        display: block;
+    }
+    .gallery-actions {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        display: flex;
+        gap: 5px;
+    }
+    .gallery-actions button {
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,0.8);
+        border: none;
+        cursor: pointer;
+    }
+    .gallery-actions button:hover {
+        background: rgba(255,255,255,1);
+    }
+    .gallery-caption {
+        padding: 8px;
+        background: #fff;
+    }
+    .gallery-caption input {
+        width: 100%;
+        border: 1px solid #e5e7eb;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+    }
+    .primary-photo-badge {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        background: #0d6efd;
+        color: white;
+        border-radius: 3px;
+        padding: 2px 5px;
+        font-size: 0.7rem;
     }
 </style>
 <!-- Flatpickr CSS -->
@@ -105,6 +182,7 @@
                 
                 <form action="{{ route('administrator.location.update', $location->id) }}" method="POST" enctype="multipart/form-data" id="location-form">
                     @csrf
+                    <meta name="csrf-token" content="{{ csrf_token() }}">
                     @method('PUT')
                     <input type="hidden" name="operation_hours" id="operation_hours_json">
                     
@@ -187,11 +265,82 @@
                                     <div class="form-group">
                                         <label class="col-form-label fw-semibold fs-6">Thumbnail</label>
                                         <input type="file" name="thumbnail" class="form-control form-control-lg form-control-solid" accept="image/*" />
-                                        @if($location->thumbnail)
+                                        @if($location->thumbnail_url)
                                         <div class="mt-2">
-                                            <img src="{{ asset('storage/' . $location->thumbnail) }}" alt="{{ $location->name }}" class="img-thumbnail" style="max-height: 100px;">
+                                            <img src="{{ Storage::disk('s3')->url($location->thumbnail_url) }}" alt="{{ $location->name }}" class="img-thumbnail" style="max-height: 100px;">
                                         </div>
                                         @endif
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-6">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="col-form-label fw-semibold fs-6">Gallery Photos</label>
+                                        
+                                        <!-- Existing Photos Gallery -->
+                                        @if($location->photos->count() > 0)
+                                        <div class="mb-5">
+                                            <h4 class="fs-6 fw-semibold mb-3">Existing Photos</h4>
+                                            <div class="gallery-container">
+                                                @foreach($location->photos as $photo)
+                                                <div class="gallery-item" id="gallery-item-{{ $photo->id }}">
+                                                    @if($photo->is_primary)
+                                                    <span class="primary-photo-badge">Primary</span>
+                                                    @endif
+                                                    <img src="{{ Storage::disk('s3')->url($photo->photo_url) }}" alt="{{ $photo->caption ?? 'Gallery photo' }}">
+                                                    <div class="gallery-actions">
+                                                        @if(!$photo->is_primary)
+                                                        <button type="button" class="btn-set-primary" data-photo-id="{{ $photo->id }}" data-location-id="{{ $location->id }}" title="Set as primary">
+                                                            <i class="ki-duotone ki-star fs-6 text-warning">
+                                                                <span class="path1"></span>
+                                                                <span class="path2"></span>
+                                                            </i>
+                                                        </button>
+                                                        @endif
+                                                        <button type="button" class="btn-delete-photo" data-photo-id="{{ $photo->id }}" title="Delete photo">
+                                                            <i class="ki-duotone ki-trash fs-6 text-danger">
+                                                                <span class="path1"></span>
+                                                                <span class="path2"></span>
+                                                                <span class="path3"></span>
+                                                                <span class="path4"></span>
+                                                                <span class="path5"></span>
+                                                            </i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="gallery-caption">
+                                                        <input type="hidden" name="existing_photos[{{ $photo->id }}]" value="1">
+                                                        <input type="text" name="existing_photo_captions[{{ $photo->id }}]" value="{{ $photo->caption }}" placeholder="Caption" class="form-control form-control-sm">
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        @endif
+
+                                        <!-- Upload new photos -->
+                                        <h4 class="fs-6 fw-semibold mb-3">Upload New Photos</h4>
+                                        <div class="dropzone" id="location_gallery_dropzone">
+                                            <div class="dz-message needsclick">
+                                                <i class="ki-duotone ki-file-up fs-3x text-primary">
+                                                    <span class="path1"></span>
+                                                    <span class="path2"></span>
+                                                </i>
+                                                <div class="ms-4">
+                                                    <h3 class="fs-5 fw-bold text-gray-900 mb-1">Drop files here or click to upload.</h3>
+                                                    <span class="fs-7 fw-semibold text-gray-400">Upload up to 10 files (max 2MB each)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Hidden input for deleted photos -->
+                                        <div id="deleted_photos_container"></div>
+                                        
+                                        <!-- Captions for new photos -->
+                                        <div id="photo_captions_container" class="mt-5">
+                                            <!-- Caption inputs will be added here dynamically -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>

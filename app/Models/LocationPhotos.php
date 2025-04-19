@@ -11,6 +11,19 @@ class LocationPhotos extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'location_id',
+        'photo_url',
+        'caption',
+        'order',
+        'is_primary'
+    ];
+
+    /**
      * The attributes that aren't mass assignable.
      *
      * @var array<string>|bool

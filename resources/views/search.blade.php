@@ -1,57 +1,49 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visual Halaman Hasil Pencarian (Update 7 - Perbaikan Komentar)</title> <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-         body { font-family: 'Inter', sans-serif; }
-         /* Verification Badge Icons */
-         .badge-gold { @apply text-yellow-500; }
-         .badge-silver { @apply text-gray-400; }
-         .badge-bronze { @apply text-amber-600; }
+@extends('layouts.frontpage.app')
+@section('title', 'Search')
+@section('styles')
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    /* Verification Badge Icons */
+    .badge-gold { @apply text-yellow-500; }
+    .badge-silver { @apply text-gray-400; }
+    .badge-bronze { @apply text-amber-600; }
 
-         /* Quick Info Tag Style */
-         .info-tag {
-             @apply inline-block bg-gray-100 text-gray-600 text-[10px] px-1.5 py-0.5 rounded-md mr-1 mb-1;
-         }
+    /* Quick Info Tag Style */
+    .info-tag {
+        @apply inline-block bg-gray-100 text-gray-600 text-[10px] px-1.5 py-0.5 rounded-md mr-1 mb-1;
+    }
 
-         /* Basic Modal Styling (for mobile) */
-         .modal-overlay {
-             @apply fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-40 lg:hidden; /* Hidden on large screens */
-         }
-         .modal-content {
-             @apply bg-white rounded-lg shadow-xl p-6 w-11/12 max-w-md max-h-[80vh] overflow-y-auto;
-         }
+    /* Basic Modal Styling (for mobile) */
+    .modal-overlay {
+        @apply fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-40 lg:hidden; /* Hidden on large screens */
+    }
+    .modal-content {
+        @apply bg-white rounded-lg shadow-xl p-6 w-11/12 max-w-md max-h-[80vh] overflow-y-auto;
+    }
 
-         /* Simple Toggle Switch Styling */
-         .toggle-label {
-             @apply relative block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer w-10 transition-colors duration-200 ease-in-out;
-         }
-         .toggle-checkbox + .toggle-label::before {
-             content: '';
-             @apply absolute block w-5 h-5 rounded-full bg-white border-4 border-transparent shadow top-1/2 transform -translate-y-1/2 transition-transform duration-200 ease-in-out;
-             left: 0px; box-sizing: border-box;
-         }
-         .toggle-checkbox:checked + .toggle-label { @apply bg-blue-500; }
-         .toggle-checkbox:checked + .toggle-label::before { @apply translate-x-full; }
-         .toggle-checkbox { @apply absolute opacity-0 w-0 h-0; }
+    /* Simple Toggle Switch Styling */
+    .toggle-label {
+        @apply relative block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer w-10 transition-colors duration-200 ease-in-out;
+    }
+    .toggle-checkbox + .toggle-label::before {
+        content: '';
+        @apply absolute block w-5 h-5 rounded-full bg-white border-4 border-transparent shadow top-1/2 transform -translate-y-1/2 transition-transform duration-200 ease-in-out;
+        left: 0px; box-sizing: border-box;
+    }
+    .toggle-checkbox:checked + .toggle-label { @apply bg-blue-500; }
+    .toggle-checkbox:checked + .toggle-label::before { @apply translate-x-full; }
+    .toggle-checkbox { @apply absolute opacity-0 w-0 h-0; }
 
-         /* Styling for Loading Skeleton */
-         .skeleton-card { @apply bg-white border border-gray-200 rounded-lg p-3 flex space-x-3; }
-         .skeleton-img { @apply w-20 h-20 rounded bg-gray-200 animate-pulse; }
-         .skeleton-line { @apply h-4 bg-gray-200 rounded animate-pulse mb-2; }
+    /* Styling for Loading Skeleton */
+    .skeleton-card { @apply bg-white border border-gray-200 rounded-lg p-3 flex space-x-3; }
+    .skeleton-img { @apply w-20 h-20 rounded bg-gray-200 animate-pulse; }
+    .skeleton-line { @apply h-4 bg-gray-200 rounded animate-pulse mb-2; }
 
-    </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body class="bg-gray-100">
-
+</style>
+@endsection
+@section('content') 
     <div class="container mx-auto max-w-md md:max-w-2xl lg:max-w-6xl bg-white lg:bg-transparent shadow-lg lg:shadow-none min-h-screen">
-        <nav class="bg-white p-3 flex justify-between items-center sticky top-0 z-20 border-b lg:rounded-t-lg">
+        <nav class="bg-white p-3 flex justify-between items-center border-b lg:rounded-t-lg">
              <button class="text-gray-600 hover:text-blue-500" aria-label="Kembali">
                  <i class="fas fa-arrow-left"></i>
              </button>
@@ -217,11 +209,10 @@
                      <div class="text-center pt-4 lg:col-span-1 xl:col-span-2">
                           <button class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-blue-600 transition-colors duration-150" onclick="console.log('Tombol Muat Lebih Banyak diklik')">Muat Lebih Banyak</button>
                       </div>
-                 </div> </section> </div> <footer class="bg-gray-200 p-3 text-center mt-6 lg:rounded-b-lg">
-             <p class="text-xs text-gray-600">&copy; 2025 NamaApp</p>
-         </footer>
+                 </div> </section> </div>  
 
-    </div> <div id="filter-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    </div> 
+    <div id="filter-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-content">
             <div class="flex justify-between items-center mb-4">
                 <h2 id="modal-title" class="text-lg font-semibold">Filter & Urutkan</h2>
@@ -242,189 +233,191 @@
         </div>
     </div>
 
-    <script>
-        // --- DOM Element References ---
-        const filterButton = document.getElementById('filter-button');
-        const filterModal = document.getElementById('filter-modal');
-        const closeModalButton = document.getElementById('close-modal-button');
-        const mobileApplyFiltersButton = document.getElementById('mobile-apply-filters');
-        const mobileResetFiltersButton = document.getElementById('mobile-reset-filters');
-        const mobileFilterForm = document.getElementById('mobile-filter-form');
+ 
+@endsection
+@section('scripts')
 
-        const desktopFilterForm = document.getElementById('desktop-filter-form');
-        const desktopResetButton = document.getElementById('desktop-reset-filters');
-        const desktopApplyButton = document.getElementById('desktop-apply-filters');
+<script>
+    // --- DOM Element References ---
+    const filterButton = document.getElementById('filter-button');
+    const filterModal = document.getElementById('filter-modal');
+    const closeModalButton = document.getElementById('close-modal-button');
+    const mobileApplyFiltersButton = document.getElementById('mobile-apply-filters');
+    const mobileResetFiltersButton = document.getElementById('mobile-reset-filters');
+    const mobileFilterForm = document.getElementById('mobile-filter-form');
 
-        const searchResultsContainer = document.getElementById('search-results-container');
-        const resultsGrid = document.getElementById('results-grid');
-        const loadingState = document.getElementById('loading-state');
-        const emptyState = document.getElementById('empty-state');
-        const activeFiltersDisplay = document.getElementById('active-filters-display');
+    const desktopFilterForm = document.getElementById('desktop-filter-form');
+    const desktopResetButton = document.getElementById('desktop-reset-filters');
+    const desktopApplyButton = document.getElementById('desktop-apply-filters');
 
-        // --- Modal Logic (Mobile) ---
-        function openModal() {
-            filterModal?.classList.remove('hidden');
-            filterButton?.setAttribute('aria-expanded', 'true');
-            // TODO: Implement focus trap for accessibility
-        }
+    const searchResultsContainer = document.getElementById('search-results-container');
+    const resultsGrid = document.getElementById('results-grid');
+    const loadingState = document.getElementById('loading-state');
+    const emptyState = document.getElementById('empty-state');
+    const activeFiltersDisplay = document.getElementById('active-filters-display');
 
-        function closeModal() {
-            filterModal?.classList.add('hidden');
-            filterButton?.setAttribute('aria-expanded', 'false');
-            // TODO: Restore focus to the filter button for accessibility
-        }
+    // --- Modal Logic (Mobile) ---
+    function openModal() {
+        filterModal?.classList.remove('hidden');
+        filterButton?.setAttribute('aria-expanded', 'true');
+        // TODO: Implement focus trap for accessibility
+    }
 
-        filterButton?.addEventListener('click', openModal);
-        closeModalButton?.addEventListener('click', closeModal);
-        filterModal?.addEventListener('click', (event) => { if (event.target === filterModal) closeModal(); });
+    function closeModal() {
+        filterModal?.classList.add('hidden');
+        filterButton?.setAttribute('aria-expanded', 'false');
+        // TODO: Restore focus to the filter button for accessibility
+    }
 
-        // --- Filter Application Logic ---
-        function applyFilters(source) { // source can be 'mobile' or 'desktop'
-            const form = (source === 'mobile') ? mobileFilterForm : desktopFilterForm;
-            if (!form) {
-                console.error("Filter form not found for source:", source);
-                return;
-            };
+    filterButton?.addEventListener('click', openModal);
+    closeModalButton?.addEventListener('click', closeModal);
+    filterModal?.addEventListener('click', (event) => { if (event.target === filterModal) closeModal(); });
 
-            const formData = new FormData(form);
-            const filters = Object.fromEntries(formData.entries());
-            console.log(`Applying filters (${source}):`, filters);
+    // --- Filter Application Logic ---
+    function applyFilters(source) { // source can be 'mobile' or 'desktop'
+        const form = (source === 'mobile') ? mobileFilterForm : desktopFilterForm;
+        if (!form) {
+            console.error("Filter form not found for source:", source);
+            return;
+        };
 
-            // ** TODO: Implement actual filtering logic here **
-            // This section requires integration with your data source (API call or client-side data)
-            // --------------------------------------------------
-            // 1. Show Loading State
-            showLoadingState();
+        const formData = new FormData(form);
+        const filters = Object.fromEntries(formData.entries());
+        console.log(`Applying filters (${source}):`, filters);
 
-            // 2. Simulate Network Request / Data Filtering
-            console.log("Simulating data fetch/filter...");
-            setTimeout(() => {
-                // 3. Simulate Receiving Results
-                const hasResults = Math.random() > 0.2; // Randomly simulate results found or not
+        // ** TODO: Implement actual filtering logic here **
+        // This section requires integration with your data source (API call or client-side data)
+        // --------------------------------------------------
+        // 1. Show Loading State
+        showLoadingState();
 
-                // 4. Update Display based on simulated results
-                if (hasResults) {
-                    // TODO: Replace console.log with actual DOM manipulation
-                    //       to update the #results-grid with the new data.
-                    console.log("Simulated results received. Updating results grid...");
-                    showResults(); // Show the results container (assuming it contains the new data)
-                } else {
-                    console.log("Simulated fetch returned no results.");
-                    showEmptyState(); // Show the empty state message
-                }
+        // 2. Simulate Network Request / Data Filtering
+        console.log("Simulating data fetch/filter...");
+        setTimeout(() => {
+            // 3. Simulate Receiving Results
+            const hasResults = Math.random() > 0.2; // Randomly simulate results found or not
 
-                // 5. Update Active Filters Display
-                updateActiveFiltersDisplay(filters);
-
-            }, 1000); // Simulate 1 second network delay
-            // --------------------------------------------------
-
-            if (source === 'mobile') {
-                closeModal(); // Close modal only after applying mobile filters
-            }
-        }
-
-        mobileApplyFiltersButton?.addEventListener('click', () => applyFilters('mobile'));
-        desktopApplyButton?.addEventListener('click', () => applyFilters('desktop'));
-
-        // --- Filter Reset Logic ---
-        function resetFilters(source) {
-             const form = (source === 'mobile') ? mobileFilterForm : desktopFilterForm;
-             if (!form) return;
-
-             form.reset();
-             // Manually update ARIA states for toggles after reset
-             form.querySelectorAll('.toggle-checkbox').forEach(toggle => {
-                 toggle.setAttribute('aria-checked', toggle.checked);
-             });
-             console.log(`Filters Reset (${source})`);
-
-             // ** Important UX Decision **:
-             // Should resetting filters automatically trigger a new search/apply?
-             // Or should the user click "Apply" again?
-             // Current implementation requires clicking "Apply" again.
-             // To apply immediately, uncomment the next line:
-             // applyFilters(source);
-
-             // Clear the active filters display when reset
-             updateActiveFiltersDisplay({});
-        }
-
-        mobileResetFiltersButton?.addEventListener('click', () => resetFilters('mobile'));
-        desktopResetButton?.addEventListener('click', () => resetFilters('desktop'));
-
-        // --- State Management Functions ---
-        function showLoadingState() {
-            loadingState?.classList.remove('hidden');
-            emptyState?.classList.add('hidden');
-            resultsGrid?.classList.add('hidden'); // Hide results grid while loading
-            console.log("State: Loading");
-        }
-
-        function showEmptyState() {
-            loadingState?.classList.add('hidden');
-            emptyState?.classList.remove('hidden');
-            resultsGrid?.classList.add('hidden'); // Keep results hidden
-            console.log("State: Empty");
-        }
-
-         function showResults() {
-            loadingState?.classList.add('hidden');
-            emptyState?.classList.add('hidden');
-            resultsGrid?.classList.remove('hidden'); // Show results grid
-            console.log("State: Showing Results");
-        }
-
-        // --- Update Active Filters Display (Example for Mobile) ---
-        function updateActiveFiltersDisplay(filters) {
-            // This function primarily targets the mobile display area
-            if (!activeFiltersDisplay) return;
-            let activeFilterText = [];
-            // Read filters (use consistent names)
-            if (filters.filter_open === 'on') activeFilterText.push('Buka');
-            if (filters.filter_promo === 'on') activeFilterText.push('Promo');
-            if (filters.filter_verified_only === 'on') {
-                 activeFilterText.push(`Verified`); // Simplified display
-            } else if (filters.verification && filters.verification !== 'any') {
-                 activeFilterText.push(`Verified: ${filters.verification}`);
-            }
-            if (filters.sort && filters.sort !== 'relevance') {
-                activeFilterText.push(`Urut: ${filters.sort === 'distance' ? 'Jarak' : 'Rating'}`);
-            }
-            // TODO: Add category filter display if implemented
-
-            if (activeFilterText.length > 0) {
-                 // Added type="button" to the Ubah button
-                 activeFiltersDisplay.innerHTML = `Filter: ${activeFilterText.join(', ')} <button type="button" class="ml-2 text-blue-500 underline" onclick="openModal()">Ubah</button>`;
-                 activeFiltersDisplay.classList.remove('hidden');
+            // 4. Update Display based on simulated results
+            if (hasResults) {
+                // TODO: Replace console.log with actual DOM manipulation
+                //       to update the #results-grid with the new data.
+                console.log("Simulated results received. Updating results grid...");
+                showResults(); // Show the results container (assuming it contains the new data)
             } else {
-                 activeFiltersDisplay.innerHTML = '';
-                 activeFiltersDisplay.classList.add('hidden');
+                console.log("Simulated fetch returned no results.");
+                showEmptyState(); // Show the empty state message
             }
+
+            // 5. Update Active Filters Display
+            updateActiveFiltersDisplay(filters);
+
+        }, 1000); // Simulate 1 second network delay
+        // --------------------------------------------------
+
+        if (source === 'mobile') {
+            closeModal(); // Close modal only after applying mobile filters
         }
+    }
+
+    mobileApplyFiltersButton?.addEventListener('click', () => applyFilters('mobile'));
+    desktopApplyButton?.addEventListener('click', () => applyFilters('desktop'));
+
+    // --- Filter Reset Logic ---
+    function resetFilters(source) {
+         const form = (source === 'mobile') ? mobileFilterForm : desktopFilterForm;
+         if (!form) return;
+
+         form.reset();
+         // Manually update ARIA states for toggles after reset
+         form.querySelectorAll('.toggle-checkbox').forEach(toggle => {
+             toggle.setAttribute('aria-checked', toggle.checked);
+         });
+         console.log(`Filters Reset (${source})`);
+
+         // ** Important UX Decision **:
+         // Should resetting filters automatically trigger a new search/apply?
+         // Or should the user click "Apply" again?
+         // Current implementation requires clicking "Apply" again.
+         // To apply immediately, uncomment the next line:
+         // applyFilters(source);
+
+         // Clear the active filters display when reset
+         updateActiveFiltersDisplay({});
+    }
+
+    mobileResetFiltersButton?.addEventListener('click', () => resetFilters('mobile'));
+    desktopResetButton?.addEventListener('click', () => resetFilters('desktop'));
+
+    // --- State Management Functions ---
+    function showLoadingState() {
+        loadingState?.classList.remove('hidden');
+        emptyState?.classList.add('hidden');
+        resultsGrid?.classList.add('hidden'); // Hide results grid while loading
+        console.log("State: Loading");
+    }
+
+    function showEmptyState() {
+        loadingState?.classList.add('hidden');
+        emptyState?.classList.remove('hidden');
+        resultsGrid?.classList.add('hidden'); // Keep results hidden
+        console.log("State: Empty");
+    }
+
+     function showResults() {
+        loadingState?.classList.add('hidden');
+        emptyState?.classList.add('hidden');
+        resultsGrid?.classList.remove('hidden'); // Show results grid
+        console.log("State: Showing Results");
+    }
+
+    // --- Update Active Filters Display (Example for Mobile) ---
+    function updateActiveFiltersDisplay(filters) {
+        // This function primarily targets the mobile display area
+        if (!activeFiltersDisplay) return;
+        let activeFilterText = [];
+        // Read filters (use consistent names)
+        if (filters.filter_open === 'on') activeFilterText.push('Buka');
+        if (filters.filter_promo === 'on') activeFilterText.push('Promo');
+        if (filters.filter_verified_only === 'on') {
+             activeFilterText.push(`Verified`); // Simplified display
+        } else if (filters.verification && filters.verification !== 'any') {
+             activeFilterText.push(`Verified: ${filters.verification}`);
+        }
+        if (filters.sort && filters.sort !== 'relevance') {
+            activeFilterText.push(`Urut: ${filters.sort === 'distance' ? 'Jarak' : 'Rating'}`);
+        }
+        // TODO: Add category filter display if implemented
+
+        if (activeFilterText.length > 0) {
+             // Added type="button" to the Ubah button
+             activeFiltersDisplay.innerHTML = `Filter: ${activeFilterText.join(', ')} <button type="button" class="ml-2 text-blue-500 underline" onclick="openModal()">Ubah</button>`;
+             activeFiltersDisplay.classList.remove('hidden');
+        } else {
+             activeFiltersDisplay.innerHTML = '';
+             activeFiltersDisplay.classList.add('hidden');
+        }
+    }
 
 
-        // --- Initialize Toggle ARIA states ---
-        function initializeToggles(form) {
-            form?.querySelectorAll('.toggle-checkbox').forEach(toggle => {
-                // Set initial ARIA state based on HTML 'checked' attribute
-                toggle.setAttribute('aria-checked', toggle.checked);
-                // Add listener to update ARIA state on change
-                toggle.addEventListener('change', function() {
-                    this.setAttribute('aria-checked', this.checked);
-                });
+    // --- Initialize Toggle ARIA states ---
+    function initializeToggles(form) {
+        form?.querySelectorAll('.toggle-checkbox').forEach(toggle => {
+            // Set initial ARIA state based on HTML 'checked' attribute
+            toggle.setAttribute('aria-checked', toggle.checked);
+            // Add listener to update ARIA state on change
+            toggle.addEventListener('change', function() {
+                this.setAttribute('aria-checked', this.checked);
             });
-        }
-        initializeToggles(mobileFilterForm);
-        initializeToggles(desktopFilterForm);
+        });
+    }
+    initializeToggles(mobileFilterForm);
+    initializeToggles(desktopFilterForm);
 
-        // --- Initial Page State ---
-        // Ensure only the results grid is visible on initial load
-        showResults();
-        // Clear any potentially cached active filter display
-        updateActiveFiltersDisplay({});
+    // --- Initial Page State ---
+    // Ensure only the results grid is visible on initial load
+    showResults();
+    // Clear any potentially cached active filter display
+    updateActiveFiltersDisplay({});
 
-    </script>
-
-</body>
-</html>
+</script>
+@endsection

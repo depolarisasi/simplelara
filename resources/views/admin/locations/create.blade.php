@@ -3,6 +3,7 @@
 
 @section('styles')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 <style>
     #map {
         height: 400px;
@@ -28,6 +29,19 @@
     }
     .tab-content {
         padding-top: 20px;
+    }
+    /* Dropzone custom styling */
+    .dropzone {
+        border: 2px dashed #0d6efd;
+        border-radius: 5px;
+        background: #f8fafc;
+    }
+    .dropzone .dz-preview .dz-image {
+        border-radius: 8px;
+    }
+    .dz-caption {
+        margin-top: 10px;
+        width: 120px;
     }
 </style>
 <!-- Flatpickr CSS -->
@@ -186,6 +200,29 @@
                                     <div class="form-group">
                                         <label class="col-form-label fw-semibold fs-6">Thumbnail</label>
                                         <input type="file" name="thumbnail" class="form-control form-control-lg form-control-solid" accept="image/*" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-6">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="col-form-label fw-semibold fs-6">Gallery Photos</label>
+                                        <div class="dropzone" id="location_gallery_dropzone">
+                                            <div class="dz-message needsclick">
+                                                <i class="ki-duotone ki-file-up fs-3x text-primary">
+                                                    <span class="path1"></span>
+                                                    <span class="path2"></span>
+                                                </i>
+                                                <div class="ms-4">
+                                                    <h3 class="fs-5 fw-bold text-gray-900 mb-1">Drop files here or click to upload.</h3>
+                                                    <span class="fs-7 fw-semibold text-gray-400">Upload up to 10 files (max 2MB each)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="photo_captions_container" class="mt-5">
+                                            <!-- Caption inputs will be added here dynamically -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -442,15 +479,74 @@
 
 @section('scripts')
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 <!-- Flatpickr JS -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     var map;
     var marker;
+    // Disable Dropzone autoDiscover
+    Dropzone.autoDiscover = false;
 
     $(document).ready(function() {
         // Initialize operation hours
         var operationHours = {};
+
+        // Setup Dropzone for gallery photos
+        var galleryDropzone = new Dropzone("#location_gallery_dropzone", {
+            url: "#", // will be ignored since we're not actually uploading here
+            autoProcessQueue: false,
+            uploadMultiple: true,
+            parallelUploads: 10,
+            maxFiles: 10,
+            maxFilesize: 2, // MB
+            acceptedFiles: 'image/*',
+            addRemoveLinks: true,
+            previewsContainer: "#location_gallery_dropzone",
+            clickable: true,
+            createImageThumbnails: true,
+            init: function() {
+                var myDropzone = this;
+                
+                // When a file is added, create a caption input for it
+                this.on("addedfile", function(file) {
+                    var captionInput = $('<div class="form-group mt-2"><input type="text" class="form-control form-control-sm" placeholder="Caption for ' + file.name + '" name="photo_captions[]"></div>');
+                    $('#photo_captions_container').append(captionInput);
+                    file.captionElement = captionInput;
+                });
+                
+                // When a file is removed, remove its caption input
+                this.on("removedfile", function(file) {
+                    if (file.captionElement) {
+                        file.captionElement.remove();
+                    }
+                });
+                
+                // Handle form submission
+                $("#location-form").on("submit", function(e) {
+                    // If there are files in the dropzone
+                    if (myDropzone.files.length > 0) {
+                        // Create a separate input field for each file
+                        myDropzone.files.forEach(function(file, index) {
+                            // Create a hidden input for the file
+                            var input = $('<input type="file" name="photos[]" style="display:none;">').get(0);
+                            // Convert file to a Blob and assign it to the input
+                            var fileInput = new File([file], file.name, {type: file.type});
+                            
+                            // Create a DataTransfer object to assign the file to the input
+                            var dataTransfer = new DataTransfer();
+                            dataTransfer.items.add(fileInput);
+                            input.files = dataTransfer.files;
+                            
+                            // Append to the form
+                            $("#location-form").append(input);
+                        });
+                    }
+                    // Let the form continue submitting
+                    return true;
+                });
+            }
+        });
         
         // Initialize Flatpickr for time inputs
         $(".flatpickr-time").flatpickr({

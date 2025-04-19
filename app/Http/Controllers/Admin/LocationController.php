@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Location;
+use App\Models\LocationPhotos;
 use App\Models\LocationType;
 use App\Models\Province;
 use App\Models\City;
@@ -54,6 +55,10 @@ class LocationController extends Controller
                 'email' => 'nullable|email|max:255',
                 'owner_id' => 'required|exists:users,id',
                 'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'photos' => 'nullable|array',
+                'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                'photo_captions' => 'nullable|array',
+                'photo_captions.*' => 'nullable|string|max:255',
                 'operation_hours' => 'nullable|string',
                 'location_type_id' => 'required|exists:location_types,id',
                 'province_id' => 'required|exists:provinces,id',
@@ -91,6 +96,26 @@ class LocationController extends Controller
             // Logging
             Log::debug('Location created:', ['id' => $location->id]);
             
+            // Handle multiple photos upload
+            if ($request->hasFile('photos')) {
+                $photos = $request->file('photos');
+                $captions = $request->input('photo_captions', []);
+                
+                foreach ($photos as $key => $photo) {
+                    $photoUrl = $this->uploadImage($photo, 'locations/gallery');
+                    $caption = isset($captions[$key]) ? $captions[$key] : null;
+                    
+                    // Simpan data foto ke tabel location_photos
+                    LocationPhotos::create([
+                        'location_id' => $location->id,
+                        'photo_url' => $photoUrl,
+                        'caption' => $caption,
+                        'order' => $key,
+                        'is_primary' => false
+                    ]);
+                }
+            }
+            
             // Update the coordinates for PostgreSQL PostGIS
             if (isset($validated['latitude']) && isset($validated['longitude'])) {
                 try {
@@ -124,7 +149,7 @@ class LocationController extends Controller
      */
     public function edit($id)
     {
-        $location = Location::findOrFail($id);
+        $location = Location::with('photos')->findOrFail($id);
         $locationTypes = LocationType::all();
         $provinces = Province::all();
         $cities = City::where('province_id', $location->province_id)->get();
@@ -148,6 +173,13 @@ class LocationController extends Controller
                 'email' => 'nullable|email|max:255',
                 'owner_id' => 'required|exists:users,id',
                 'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'photos' => 'nullable|array',
+                'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                'photo_captions' => 'nullable|array',
+                'photo_captions.*' => 'nullable|string|max:255',
+                'existing_photos' => 'nullable|array',
+                'existing_photo_captions' => 'nullable|array',
+                'deleted_photos' => 'nullable|array',
                 'operation_hours' => 'nullable|string',
                 'location_type_id' => 'required|exists:location_types,id',
                 'province_id' => 'required|exists:provinces,id',
@@ -186,6 +218,58 @@ class LocationController extends Controller
             // Update the location
             $location->update($validated);
             
+            // Handle deleted photos
+            if ($request->has('deleted_photos')) {
+                $deletedPhotos = $request->input('deleted_photos', []);
+                
+                foreach ($deletedPhotos as $photoId) {
+                    $photo = LocationPhotos::find($photoId);
+                    if ($photo) {
+                        // Delete the photo file from storage
+                        $this->deleteImage($photo->photo_url);
+                        // Delete the record from database
+                        $photo->delete();
+                    }
+                }
+            }
+            
+            // Update existing photo captions
+            if ($request->has('existing_photos')) {
+                $existingPhotos = $request->input('existing_photos', []);
+                $existingCaptions = $request->input('existing_photo_captions', []);
+                
+                foreach ($existingPhotos as $photoId => $value) {
+                    $photo = LocationPhotos::find($photoId);
+                    if ($photo) {
+                        $photo->caption = $existingCaptions[$photoId] ?? $photo->caption;
+                        $photo->save();
+                    }
+                }
+            }
+            
+            // Handle new photos upload
+            if ($request->hasFile('photos')) {
+                $photos = $request->file('photos');
+                $captions = $request->input('photo_captions', []);
+                
+                // Get current max order
+                $maxOrder = LocationPhotos::where('location_id', $location->id)->max('order') ?? 0;
+                
+                foreach ($photos as $key => $photo) {
+                    $photoUrl = $this->uploadImage($photo, 'locations/gallery');
+                    $caption = isset($captions[$key]) ? $captions[$key] : null;
+                    
+                    // Simpan data foto ke tabel location_photos
+                    LocationPhotos::create([
+                        'location_id' => $location->id,
+                        'photo_url' => $photoUrl,
+                        'caption' => $caption,
+                        'order' => $maxOrder + $key + 1,
+                        'is_primary' => false
+                    ]);
+                }
+            }
+            
             // Update the coordinates for PostgreSQL PostGIS
             if (isset($validated['latitude']) && isset($validated['longitude'])) {
                 try {
@@ -223,6 +307,13 @@ class LocationController extends Controller
             // Delete thumbnail using trait
             $this->deleteImage($location->thumbnail_url);
             
+            // Delete all related photos
+            $photos = LocationPhotos::where('location_id', $location->id)->get();
+            foreach ($photos as $photo) {
+                $this->deleteImage($photo->photo_url);
+                $photo->delete();
+            }
+            
             $location->delete();
         } catch (\Exception $e) {
             Log::error('Error deleting location: ' . $e->getMessage());
@@ -245,6 +336,61 @@ class LocationController extends Controller
     {
         $cities = City::where('province_id', $provinceId)->get();
         return response()->json($cities);
+    }
+
+    /**
+     * Menghapus foto lokasi
+     */
+    public function deletePhoto($id)
+    {
+        try {
+            $photo = LocationPhotos::findOrFail($id);
+            
+            // Delete photo file
+            $this->deleteImage($photo->photo_url);
+            
+            // Delete record
+            $photo->delete();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Foto berhasil dihapus'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error deleting photo: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus foto: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    
+    /**
+     * Set primary photo
+     */
+    public function setPrimaryPhoto($locationId, $photoId)
+    {
+        try {
+            // Remove primary flag from all photos first
+            LocationPhotos::where('location_id', $locationId)
+                ->update(['is_primary' => false]);
+            
+            // Set the selected photo as primary
+            $photo = LocationPhotos::findOrFail($photoId);
+            $photo->is_primary = true;
+            $photo->save();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Foto utama berhasil diatur'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error setting primary photo: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengatur foto utama: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

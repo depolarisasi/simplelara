@@ -11,12 +11,11 @@ use App\Http\Controllers\Admin\LocationCategoryController;
 use App\Http\Controllers\Admin\LocationSubCategoryController;
 use App\Http\Controllers\Admin\LocationTypeController;
 use App\Http\Controllers\Admin\PremiumPlanController;
+use App\Http\Controllers\Admin\AppSliderController;
 use App\Http\Controllers\DebugController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [AdminController::class, 'frontpage']);
 
 Route::get('/search', function () {
     return view('search');
@@ -121,6 +120,8 @@ Route::prefix('administrator')->name('administrator.')->middleware(['auth'])->gr
             Route::put('/update/{id}', [App\Http\Controllers\Admin\LocationController::class, 'update'])->name('location.update');
             Route::get('/delete/{id}', [App\Http\Controllers\Admin\LocationController::class, 'destroy'])->name('location.destroy');
             Route::get('/get-cities/{provinceId}', [App\Http\Controllers\Admin\LocationController::class, 'getCities'])->name('location.getCities');
+            Route::delete('/photo/{id}', [App\Http\Controllers\Admin\LocationController::class, 'deletePhoto'])->name('location.deletePhoto');
+            Route::post('/photo/{locationId}/set-primary/{photoId}', [App\Http\Controllers\Admin\LocationController::class, 'setPrimaryPhoto'])->name('location.setPrimaryPhoto');
 
             // Tambahkan route map
             Route::get('/map', [App\Http\Controllers\Admin\LocationController::class, 'map'])->name('location.map');
@@ -136,6 +137,14 @@ Route::prefix('administrator')->name('administrator.')->middleware(['auth'])->gr
         
     });
     
+    // App Slider Management
+    Route::prefix('slider')->group(function () {
+        Route::get('/', [AppSliderController::class, 'index'])->name('slider.index');
+        Route::post('/store', [AppSliderController::class, 'store'])->name('slider.store');
+        Route::get('/edit/{id}', [AppSliderController::class, 'edit'])->name('slider.edit');
+        Route::post('/update/{id}', [AppSliderController::class, 'update'])->name('slider.update');
+        Route::delete('/delete/{id}', [AppSliderController::class, 'destroy'])->name('slider.destroy');
+    });
 });
 
 require __DIR__.'/auth.php';

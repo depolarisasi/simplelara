@@ -1,7 +1,7 @@
 <!-- Footer -->
 <footer class="bg-base-200 text-base-content">
   <div class="container mx-auto">
-    <div class="footer p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    {{-- <div class="footer p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
       <div>
         <span class="footer-title">About</span> 
         <a class="link link-hover">About us</a>
@@ -31,7 +31,7 @@
           <a><i class="ri-instagram-line text-2xl"></i></a>
         </div>
       </div>
-    </div>
+    </div> --}}
     <div class="footer footer-center p-4 border-t border-base-300">
       <div>
         <p>© 2025 Simple - All rights reserved</p>

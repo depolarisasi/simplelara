@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('location_photos', function (Blueprint $table) {
             $table->id();
-                $table->string('url'); // photos_url
+                $table->string('photo_url'); // photos_url
                 // Foreign key ke tabel locations (galeri foto milik suatu lokasi)
                 $table->foreignId('location_id')->constrained('locations')->onDelete('cascade');
                 // Anda bisa menambahkan kolom lain seperti 'order' atau 'caption' jika perlu
                 $table->integer('order')->default(0);
                 $table->string('caption')->nullable();
+                $table->boolean('is_primary')->default(false);
                 $table->timestamps();
     
                 $table->index('location_id');

@@ -161,6 +161,19 @@
                     <!--end:Menu sub-->
                 </div>
                 <!--end:Menu item-->
+                
+                <!-- Begin::App Slider Menu Item -->
+                <div class="menu-item @if(Request::is('administrator/slider*')) here @endif menu-accordion">
+                    <a class="menu-link" href="{{url('administrator/slider')}}"> 
+                        <span class="menu-icon">
+                            <i class="ki-outline ki-picture fs-2"></i>
+                        </span>
+                        <span class="menu-title">App Slider</span>
+                        <span class="menu-arrow"></span> 
+                    </a>
+                </div>
+                <!-- End::App Slider Menu Item -->
+                
                 <div class="menu-item  @if(Request::is('administrator/premium*')) here @endif menu-accordion">
                     <a class="menu-link" href="{{url('administrator/premium')}}"> 
                             <span class="menu-icon">
